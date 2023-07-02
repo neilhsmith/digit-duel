@@ -5,7 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "public-client",
+      "name": "debug: node-functions",
+      "type": "node-terminal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/packages/node-functions",
+      "command": "func start"
+    },
+    {
+      "name": "debug: public-client",
       "type": "node-terminal",
       "request": "launch",
       "cwd": "${workspaceFolder}/packages/public-client",
