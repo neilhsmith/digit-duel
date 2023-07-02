@@ -17,9 +17,6 @@ env:
 jobs:
   build-and-deploy:
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: ./packages/node-functions
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
@@ -32,6 +29,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: "Resolve Project Dependencies Using Npm"
+        working-directory: ./packages/node-functions
         shell: pwsh
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
