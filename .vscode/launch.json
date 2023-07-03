@@ -22,6 +22,19 @@
         "uriFormat": "%s",
         "action": "openExternally"
       }
+    },
+    {
+      "name": "debug: server",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/packages/server/DigitDuel.API/bin/Debug/net7.0/DigitDuel.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/packages/server/DigitDuel.API",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   ]
 }
