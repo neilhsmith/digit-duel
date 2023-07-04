@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddDistributedMemoryCache();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -19,6 +20,8 @@ else
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Logging.AddAzureWebAppDiagnostics();
 
 var app = builder.Build();
 
