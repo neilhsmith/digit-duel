@@ -11,16 +11,16 @@ public static class SeedData
       serviceProvider.GetRequiredService<DbContextOptions<DataContext>>()
     ))
     {
-      if (context.Tests.Any())
-      {
-        return;
-      }
+      // if (context.Tests.Any())
+      // {
+      //   return;
+      // }
 
-      context.Tests.Add(new Test {
-        DateCreated = DateTime.Now,
-        Value = "gggggg bbb"
-      });
-      context.SaveChanges();
+      // context.Tests.Add(new Test {
+      //   DateCreated = DateTime.Now,
+      //   Value = "gggggg bbb"
+      // });
+      // context.SaveChanges();
     }
   }
 }

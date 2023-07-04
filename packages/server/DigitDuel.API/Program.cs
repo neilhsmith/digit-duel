@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using DigitDuel.API.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,8 +28,6 @@ else
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Logging.AddAzureWebAppDiagnostics();
 
 var app = builder.Build();
 
