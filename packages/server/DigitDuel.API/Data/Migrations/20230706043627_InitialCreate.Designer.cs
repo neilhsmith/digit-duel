@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitDuel.API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230704043358_InitialCreate")]
+    [Migration("20230706043627_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace DigitDuel.API.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
 
-            modelBuilder.Entity("DigitDuel.API.Models.Game", b =>
+            modelBuilder.Entity("DigitDuel.API.Features.Game.Game", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace DigitDuel.API.Data.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("DigitDuel.API.Models.Move", b =>
+            modelBuilder.Entity("DigitDuel.API.Features.Game.Move", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace DigitDuel.API.Data.Migrations
                     b.ToTable("Move");
                 });
 
-            modelBuilder.Entity("DigitDuel.API.Models.Player", b =>
+            modelBuilder.Entity("DigitDuel.API.Features.Game.Player", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,18 +121,33 @@ namespace DigitDuel.API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Player");
+                    b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("DigitDuel.API.Models.Move", b =>
+            modelBuilder.Entity("GamePlayer", b =>
                 {
-                    b.HasOne("DigitDuel.API.Models.Game", "Game")
+                    b.Property<Guid>("GamesId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("PlayersId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GamesId", "PlayersId");
+
+                    b.HasIndex("PlayersId");
+
+                    b.ToTable("GamePlayer");
+                });
+
+            modelBuilder.Entity("DigitDuel.API.Features.Game.Move", b =>
+                {
+                    b.HasOne("DigitDuel.API.Features.Game.Game", "Game")
                         .WithMany("Moves")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DigitDuel.API.Models.Player", "Player")
+                    b.HasOne("DigitDuel.API.Features.Game.Player", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -143,7 +158,22 @@ namespace DigitDuel.API.Data.Migrations
                     b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("DigitDuel.API.Models.Game", b =>
+            modelBuilder.Entity("GamePlayer", b =>
+                {
+                    b.HasOne("DigitDuel.API.Features.Game.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DigitDuel.API.Features.Game.Player", null)
+                        .WithMany()
+                        .HasForeignKey("PlayersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DigitDuel.API.Features.Game.Game", b =>
                 {
                     b.Navigation("Moves");
                 });

@@ -36,5 +36,11 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  ],
+  "compounds": [
+    {
+      "name": "debug: backend projects",
+      "configurations": ["debug: node-functions", "debug: server"]
+    }
   ]
 }

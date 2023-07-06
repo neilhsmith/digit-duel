@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using DigitDuel.API.Models;
 
 namespace DigitDuel.API.Data;
 
-public static class SeedData
+public static class DataSeeder
 {
   public static void Initialize(IServiceProvider serviceProvider)
   {

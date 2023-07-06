@@ -32,7 +32,7 @@ namespace DigitDuel.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Player",
+                name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -42,7 +42,31 @@ namespace DigitDuel.API.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Player", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GamePlayer",
+                columns: table => new
+                {
+                    GamesId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PlayersId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GamePlayer", x => new { x.GamesId, x.PlayersId });
+                    table.ForeignKey(
+                        name: "FK_GamePlayer_Games_GamesId",
+                        column: x => x.GamesId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GamePlayer_Players_PlayersId",
+                        column: x => x.PlayersId,
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,12 +93,17 @@ namespace DigitDuel.API.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Move_Player_PlayerId",
+                        name: "FK_Move_Players_PlayerId",
                         column: x => x.PlayerId,
-                        principalTable: "Player",
+                        principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GamePlayer_PlayersId",
+                table: "GamePlayer",
+                column: "PlayersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Move_GameId",
@@ -91,13 +120,16 @@ namespace DigitDuel.API.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "GamePlayer");
+
+            migrationBuilder.DropTable(
                 name: "Move");
 
             migrationBuilder.DropTable(
                 name: "Games");
 
             migrationBuilder.DropTable(
-                name: "Player");
+                name: "Players");
         }
     }
 }
