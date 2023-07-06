@@ -37,7 +37,7 @@ public class GameController : Controller
       player = new Player
       {
         DateCreated = DateTime.Now,
-        Name = "todo"
+        Name = GenerateName()
       };
 
     // set defaults if not sent in req
