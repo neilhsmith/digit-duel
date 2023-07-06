@@ -21,31 +21,31 @@ public class GameController : Controller
   [HttpPost]
   public async Task<IActionResult> CreateGame([FromBody] CreateGameDto createGameDto)
   {
+    // validate req
     var validator = new CreateGameDtoValidator();
     var results = validator.Validate(createGameDto);
 
     if (!results.IsValid) return BadRequest(results.Errors);
 
+    // get the player by cookie, or create a new one if no/bad cookie
     Player? player = null;
     var playerId = Request.Cookies["player_id"];
 
     if (!(playerId is null))
-    {
       player = await _context.Players.FirstOrDefaultAsync(p => p.Id == Guid.Parse(playerId));
-    }
     if (player is null)
-    {
       player = new Player
       {
         DateCreated = DateTime.Now,
         Name = "todo"
       };
-    }
 
+    // set defaults if not sent in req
     var name = createGameDto.Name ?? GenerateName();
     var difficulty = createGameDto.Difficulty ?? RandomDifficulty();
     var puzzle = await _puzzleService.GetPuzzle(difficulty);
 
+    // create & save game/player
     var gameEntity = new Game
     {
       DateCreated = DateTime.Now,
@@ -62,8 +62,10 @@ public class GameController : Controller
     _context.Games.Add(gameEntity);
     var result = await _context.SaveChangesAsync();
 
-    // TODO: set player_id cookie
+    // set player cookie
+    Response.Cookies.Append("player_id", player.Id.ToString());
 
+    // return dto
     return Ok(new GameDto
     {
       Id = gameEntity.Id,
